@@ -1,4 +1,4 @@
-package Práctica;
+package Lab3;
 import java.util.*;
 
 class assignment3 {
