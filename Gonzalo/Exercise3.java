@@ -9,7 +9,7 @@ public class Exercise3 {
         do {
             System.out.println("Enter the exact price per ticket: ");
             price = KEYBOARD.nextDouble();
-            } while(price<=0);     
+        } while(price<=0);     
         System.out.println("Enter the amount of tickets desired: ");
         tickets = KEYBOARD.nextDouble();
         while(tickets<=0) {
