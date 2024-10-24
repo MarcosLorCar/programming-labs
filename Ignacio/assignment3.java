@@ -1,4 +1,4 @@
-package Lab3;
+package Ignacio;
 import java.util.*;
 
 class assignment3 {
