@@ -1,4 +1,3 @@
-package Ignacio;
 import java.util.*;
 
 class assignment3 {
