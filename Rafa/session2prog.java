@@ -1,4 +1,4 @@
-package Lab2;
+package Rafa;
 
 import java.util.Scanner;
 public class session2prog {
