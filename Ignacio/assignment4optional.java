@@ -96,13 +96,16 @@ public class assignment4optional {
                                     seats[seat_position-1]='O';
                                 }
                             }
-                            //Selección automática
+                            //Selección automática, the same as manual, but it is randomized and no message is shown.
                             else{
                                 for (int i = 1; i <=numTickets; i++) {
-                                    System.out.println("as");
+                                    do {
+                                        seat_position=(int) Math.random()*(20+1);
+                                    }while(seats[seat_position-1]=='O' || seat_position >20 || seat_position<1);
+                                    seats[seat_position-1]='O';
                                 }
                             }
-                            //Showing the occupied seats
+                            //Showing the occupied seats after selection
                             System.out.println("The current seat occupancy is:");
                             for (int i=0;i<seats.length;i++) {
                                 System.out.print(i+1 + ":" + seats[i] + " ");
