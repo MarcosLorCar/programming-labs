@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Exercise3v2 {
+public class Exercise4 {
     private static final Scanner KEYBOARD = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -69,3 +69,4 @@ public class Exercise3v2 {
         } while(number!=3);
     }
 }
+
