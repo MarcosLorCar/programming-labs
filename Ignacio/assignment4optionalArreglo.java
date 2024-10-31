@@ -83,11 +83,11 @@ public class assignment4optionalArreglo {
                                     do {
                                         System.out.println("\nEnter the seat number for passenger " + i + ":");
                                         seat_position=KEYBOARD.nextInt();
-    
+
                                         if (seats[seat_position-1]=='O') {
                                             System.out.println("This seat is already occupied. Select other one");
                                         }
-    
+
                                         if (seat_position >20 || seat_position<1) {
                                             System.out.println("ERROR. The seat must be between 1 and 20");
                                         }
