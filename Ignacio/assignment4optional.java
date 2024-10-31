@@ -96,13 +96,14 @@ public class assignment4optional {
                                     seats[seat_position-1]='O';
                                 }
                             }
-                            //Selección automática, the same as manual, but it is randomized and no message is shown.
+                            //Automatic selection the same as manual, but it is randomized and no message is shown.
                             else{
                                 for (int i = 1; i <=numTickets; i++) {
                                     do {
-                                        seat_position=(int) Math.random()*(20+1);
+                                        seat_position=(int) (Math.random()*20+1);
                                     }while(seats[seat_position-1]=='O' || seat_position >20 || seat_position<1);
                                     seats[seat_position-1]='O';
+                                    System.out.println("The seat " + seat_position + " has been asigned to passenger " + i);
                                 }
                             }
                             //Showing the occupied seats after selection
