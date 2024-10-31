@@ -1,5 +1,3 @@
-package Marcos.Lab2;
-
 import java.util.Scanner;
 
 public class Lab2 {

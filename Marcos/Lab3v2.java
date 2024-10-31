@@ -1,8 +1,6 @@
-package Marcos.Lab3;
-
 import java.util.Scanner;
 
-public class Lab3 {
+public class Lab3v2 {
     private static final Scanner SC = new Scanner(System.in);
     private static final float MINORS_DISCOUNT = 0.2F;
     private static final float BULK_DISCOUNT = 0.1F;

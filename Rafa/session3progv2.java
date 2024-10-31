@@ -1,5 +1,3 @@
-package Rafa;
-
 import java.util.Scanner;
 public class session3progv2 {
     private static final Scanner KEYBOARD = new Scanner(System.in);

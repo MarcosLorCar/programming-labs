@@ -1,12 +1,12 @@
-
 import java.util.Scanner;
 
-public class Exercise3v2 {
+public class Exercise4 {
     private static final Scanner KEYBOARD = new Scanner(System.in);
 
     public static void main(String[] args) {
         int number, minors;
         double price=0, tickets, age, total;
+        int[] seats = new int[20];
         do{
             System.out.println("1. Establish the price for the train ticket");
             System.out.println("2. Purchase tickets");
@@ -28,6 +28,10 @@ public class Exercise3v2 {
                         System.out.println("ERROR, retry...");
                         System.out.println("Please, enter the amount of tickets desired: ");
                         tickets = KEYBOARD.nextDouble();
+                    }
+                    for(int p=0;p<seats.length;p++){
+                        seats[i]=
+                        //añadir array
                     }
                     do{
                         minors=0;
@@ -70,3 +74,4 @@ public class Exercise3v2 {
         } while(number!=3);
     }
 }
+

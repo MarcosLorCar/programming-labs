@@ -1,11 +1,9 @@
-package Rafa;
-
 import java.util.Scanner;
 public class session3prog {
     private static final Scanner KEYBOARD = new Scanner(System.in);
     public static void main(String[] args) {
         float ticket, finalticket1, finalticket2;
-        int number, age, minors = 0,totals = 0;
+        int number, age, minors = 0,adults = 0;
         System.out.println("price of a ticket?");
         ticket = KEYBOARD.nextFloat();
         while (ticket <= 0) {
@@ -29,7 +27,7 @@ public class session3prog {
                 minors ++;
             }
             else{
-                totals ++;
+                adults ++;
             }
             while (i>=number && minors == number) {
                 System.out.println("debe haber un pasajero mayor de 18");
@@ -37,7 +35,7 @@ public class session3prog {
                 minors = 0;
             }
         }
-        finalticket1 = totals * ticket;
+        finalticket1 = (adults + minors) * ticket;
         System.out.printf("here is your price: " + "%.2f\n", finalticket1);
         if (minors > 0) {
             if (minors == number) {
@@ -45,19 +43,19 @@ public class session3prog {
             }
             else{
                 finalticket2 = minors * 0.8f;
-                finalticket1 = (float) (ticket * totals * finalticket2);
+                finalticket1 = (float) (ticket * adults * finalticket2);
                 System.out.printf("minors come with a discount resulting in a price of: %.2f\n", finalticket1); 
             }
         }
-        if (minors + totals > 12) {
+        if (minors + adults > 12) {
             if (minors>0) {
                 finalticket2 = minors * 8/10;
-                finalticket1 = finalticket2 * ticket * totals * 9/10;
+                finalticket1 = finalticket2 * ticket * adults * 9/10;
                 System.out.printf("applying a discount for minors and a discount for more than 12 tickets, here is the price: "+ "%.2f",finalticket1); 
             }
             else{
                 finalticket2 = minors * 8/10;
-                finalticket1 = finalticket2 * ticket * totals * 9/10;
+                finalticket1 = finalticket2 * ticket * adults * 9/10;
                 System.out.printf("applying a discount for minors and a discount for more than 12 tickets, here is the price: "+ "%.2f",finalticket1);
             }
         }
