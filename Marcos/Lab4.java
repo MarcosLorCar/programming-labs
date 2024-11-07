@@ -16,6 +16,7 @@ public class Lab4 {
         }
         boolean exit = false;
         do {
+            // Main menu
             System.out.print("""
             Menu:
             1-Set ticket price
@@ -27,6 +28,7 @@ public class Lab4 {
 
             switch (selectedOption) {
                 case 1:
+                    // 1-Set ticket price
                     do {
                         System.out.print("Enter ticket price: ");
                         ticketPrice = SC.nextFloat();
@@ -37,6 +39,7 @@ public class Lab4 {
                     break;
 
                 case 2:
+                    // Purchase tickets
                     if (ticketPrice <= 0) {
                         System.out.println("You have to set a ticket price first.");
                     } else {
@@ -126,6 +129,7 @@ public class Lab4 {
                     break;
 
                 case 3:
+                    // Exit program
                     exit = true;
                     break;
 
