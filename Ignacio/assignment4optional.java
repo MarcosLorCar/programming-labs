@@ -8,9 +8,9 @@ public class assignment4optional {
         double price=0, result, resultGeneralDiscount, resultDiscountMinor;
         int option,numTickets, age, numTicketsminor=0, seat_position, manual_selection;
         final double GENERALDISCOUNT=0.8,DISCOUNTMINORS=0.9;
-        final int AGE_LIMIT_MINOR=18, num_Seats=20;
+        final int AGE_LIMIT_MINOR=18, max_Seats=20,min_Seats=1;
         boolean ageData=false;
-        char[] seats= new char[num_Seats];
+        char[] seats= new char[max_Seats];
         //Defining the list in the initial moment.
         for (int i=0;i<seats.length;i++) {
             seats[i]= 'A';
@@ -42,7 +42,7 @@ public class assignment4optional {
                         System.out.println("Introduce the number of tickets you want to purchase:");
                         numTickets=KEYBOARD.nextInt();
 
-                        if (numTickets<=num_Seats) {
+                        if (numTickets<=max_Seats) {
                             while (numTickets<0) {
                                 System.out.println("\nERROR! Introduce again the number of tickets you want to purchase:");
                                 numTickets=KEYBOARD.nextInt();
@@ -89,19 +89,20 @@ public class assignment4optional {
                                             System.out.println("This seat is already occupied. Select other one");
                                         }
     
-                                        if (seat_position >20 || seat_position<1) {
+                                        if (seat_position >max_Seats || seat_position<min_Seats) {
                                             System.out.println("ERROR. The seat must be between 1 and 20");
                                         }
-                                    }while(seats[seat_position-1]=='O' || seat_position >20 || seat_position<1);
+                                    }while(seats[seat_position-1]=='O' || seat_position >max_Seats || seat_position<min_Seats);
                                     seats[seat_position-1]='O';
                                 }
                             }
-                            //Automatic selection the same as manual, but it is randomized and no message is shown.
+                            //Automatic selection: the same as manual, but it is randomized and no message is shown.
                             else{
                                 for (int i = 1; i <=numTickets; i++) {
                                     do {
                                         seat_position=(int) (Math.random()*20+1);
                                     }while(seats[seat_position-1]=='O' || seat_position >20 || seat_position<1);
+                                    //Making the seats occupied
                                     seats[seat_position-1]='O';
                                     System.out.println("The seat " + seat_position + " has been asigned to passenger " + i);
                                 }
