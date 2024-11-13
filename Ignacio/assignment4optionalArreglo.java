@@ -1,4 +1,5 @@
-import java.util.Scanner;
+package Práctica.ProgrammingLabs.Ignacio;
+import java.util.*;
 
 public class assignment4optionalArreglo {
     private static final Scanner KEYBOARD= new Scanner(System.in);

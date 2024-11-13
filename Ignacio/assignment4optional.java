@@ -101,7 +101,7 @@ public class assignment4optional {
                                 for (int i = 1; i <=numTickets; i++) {
                                     do {
                                         seat_position=(int) (Math.random()*20+1);
-                                    }while(seats[seat_position-1]=='O' || seat_position >20 || seat_position<1);
+                                    }while(seats[seat_position-1]=='O' || seat_position >max_Seats || seat_position<min_Seats);
                                     //Making the seats occupied
                                     seats[seat_position-1]='O';
                                     System.out.println("The seat " + seat_position + " has been asigned to passenger " + i);
