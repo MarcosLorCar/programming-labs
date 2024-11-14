@@ -35,7 +35,7 @@ public class session3prog {
                 minors = 0;
             }
         }
-        finalticket1 = adults * ticket;
+        finalticket1 = (adults + minors) * ticket;
         System.out.printf("here is your price: " + "%.2f\n", finalticket1);
         if (minors > 0) {
             if (minors == number) {
