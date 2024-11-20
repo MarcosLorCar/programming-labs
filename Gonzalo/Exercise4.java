@@ -4,9 +4,9 @@ public class Exercise4 {
     private static final Scanner KEYBOARD = new Scanner(System.in);
 
     public static void main(String[] args) {
-        int number, minors;
-        double price=0, tickets, age, total;
-        int[] seats = new int[20];
+        char[] seats= new char [20];
+        int number, tickets, available=0, minors;
+        double price=0, age, total;
         do{
             System.out.println("1. Establish the price for the train ticket");
             System.out.println("2. Purchase tickets");
@@ -22,17 +22,19 @@ public class Exercise4 {
                     break;
                 case 2:
                 if(price != 0){
-                    System.out.println("Enter the amount of tickets desired: ");
-                    tickets = KEYBOARD.nextDouble();
-                    while(tickets<=0) {
-                        System.out.println("ERROR, retry...");
-                        System.out.println("Please, enter the amount of tickets desired: ");
-                        tickets = KEYBOARD.nextDouble();
-                    }
-                    for(int p=0;p<seats.length;p++){
-                        seats[i]=
-                        //añadir array
-                    }
+                    do{
+                        System.out.println("Enter the amount of tickets desired: ");
+                        tickets = KEYBOARD.nextInt();
+                        while(tickets<=0) {
+                            System.out.println("ERROR, retry...");
+                            System.out.println("Please, enter the amount of tickets desired: ");
+                            tickets = KEYBOARD.nextInt();
+                        }
+                        for(int i=0;i<seats.length;i++){
+                            seats[i]='A';
+                            available=available+1;
+                        }
+                    } while(available>tickets);
                     do{
                         minors=0;
                         for(int count=1;count<=tickets;count++) {
@@ -51,6 +53,28 @@ public class Exercise4 {
                         }
                     } while(minors >= tickets);
                     System.out.printf("There are %d tickets for minors\n", minors);
+                    System.out.println("This are the seats of the train");
+                    for(int m=0;m<seats.length;m++){
+                        System.out.print(seats[m]+" ");
+                    }
+                    System.out.println("Which seats do you wish to select?");
+                    for(int n=0;n<tickets;n++){
+                        System.out.println("Ticket "+n+": ");
+                        int i;
+                        do{
+                            i=KEYBOARD.nextInt();
+                            if(seats[i]=='O'){
+                                System.out.println("This seat is occupied, choose a different one");
+                                i=KEYBOARD.nextInt();
+                                seats[i]='O';
+                            }
+                            seats[i]='O';
+                        } while(seats[i]=='O');
+                    }
+                    System.out.println("This are the seats of the train");
+                    for(int p=0;p<seats.length;p++){
+                        System.out.print(seats[p]+" ");
+                    }
                     total = price * tickets;
                     System.out.printf("The total price with no discounts is %.2f\n", total);        
                     if(minors!=0) {
