@@ -7,9 +7,9 @@ public class assignment4 {
         //Definition of variables.
         double price=0, result, resultGeneralDiscount, resultDiscountMinor;
         int option,numTickets, age, numTicketsminor=0, seat_position;
-        final double GENERALDISCOUNT=0.8,DISCOUNTMINORS=0.9;
+        final double GENERALDISCOUNT=0.9,DISCOUNTMINORS=0.8;
         final int AGE_LIMIT_MINOR=18, num_Seats=20;
-        boolean ageData=false;
+        boolean ageData;
         char[] seats= new char[num_Seats];
         //Defining the list in the initial moment.
         for (int i=0;i<seats.length;i++) {
@@ -104,7 +104,7 @@ public class assignment4 {
 
                             //Applying or not the discount for minors.
                             if (numTicketsminor>0) {
-                                resultDiscountMinor=price*numTicketsminor*DISCOUNTMINORS + price*(numTickets-numTicketsminor);
+                                resultDiscountMinor= price*numTicketsminor*DISCOUNTMINORS + price*(numTickets-numTicketsminor);
                                 System.out.printf("\nThere is a discount of a 20%% on tickets for minors: %.2f",resultDiscountMinor);
                             }
                             
