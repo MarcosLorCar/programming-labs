@@ -9,7 +9,7 @@ class assignment3 {
         int numTickets, age, numTicketsminor=0;
         final double GENERALDISCOUNT=0.8,DISCOUNTMINORS=0.9;
 
-        //Ask for the price of the train ticket
+        //Ask for the price of the train ticket.
         System.out.println("Introduce the price of the tickets:");
         price=KEYBOARD.nextFloat();
 
