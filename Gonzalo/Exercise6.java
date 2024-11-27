@@ -300,7 +300,7 @@ public class Exercise6 {
         }
     }
     //-Read a number within a range
-    public static int ReadNumber(//voy por aquí){
+    public static int ReadNumber(){//voy por aqui, por el parentesis
         int number;
         System.out.print("Choose a number: ");
         number=KEYBOARD.nextInt();
