@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
-public class Exercise6 {
-
+public class Assignment6 {
     static final int ROWS = 5;
 	static final int COLUMNS = 4;
 	static final char AVAILABLE = 'A';
@@ -10,15 +9,56 @@ public class Exercise6 {
 	static final double DISCOUNT_MAXTICKETS = 10; // or multiply by 0,9
 	static final int MAX_TICKETS_NUMBER = 12;
 	static final Scanner KEYBOARD = new Scanner(System.in);
+    static char [][] seats = new char[ROWS][COLUMNS];
+    public static void allA() {
+        for(int i = 0;i < ROWS; i++){
+            for(int j = 0; j < COLUMNS; j++){
+                seats[i][j] = AVAILABLE;
+            }
+        }
+        return;
+    }
     
-    public static void main(String[] args) throws Exception {
-        char[][] seats = new char[ROWS][COLUMNS];
-        // Initially all seats are available
-        int availableSeats = ROWS * COLUMNS;
-        double price=0;
-        int option, purchaseOption, tickets, ticketsMinors;
-        boolean showMenu = true;
+    public static double calc(double price){
+        do{
+            System.out.println("Enter the price for the train ticket.");
+            System.out.println("Please note that the ticket price must be greater than 0.");
+            price = KEYBOARD.nextDouble();
+            if(price <= 0){
+                System.out.println("ERROR. The price of the ticket must be greater than 0.");
+            }
+        }while(price <= 0);
+        return price;
+    }
+    public static current(){
 
+    }
+    public static read(){
+
+    }
+    public static void menu(){
+        System.out.println("\n Choose one of the following options:");
+        System.out.println("1. Purchase tickets");
+        System.out.println("2. Change tickets");
+        System.out.println("3. Show seat status");
+        System.out.println("4. Exit the program");
+        System.out.println("Enter the number of the option you wish to choose:");
+        return;
+    }
+    public static void askchange(){
+
+    } 
+    public static available(){
+
+    }
+    public static nchanges(){
+
+    }
+    public static void main(String[] args) throws Exception {
+        boolean showMenu = true;
+        // Initially all seats are available
+        int option, purchaseOption, tickets, ticketsMinors;
+        int availableSeats = ROWS * COLUMNS;
         // Inicio del programa
         System.out.println("Welcome to the train ticket management software");
         System.out.println("The current seat status is as follows:");
@@ -26,23 +66,31 @@ public class Exercise6 {
         // The program starts by displaying the current seat status.
         // To do this, first of all, all the seats on the train are initialised as available. 
         // The matrix is traversed and each element is assigned the value AVAILABLE.
-        AllSeatsA(COLUMNS, ROWS, seats);
+        allA();
         // Secondly, the current seat status is displayed.
-        CurrentStatus(COLUMNS, ROWS, seats);
+        // The first row with the column headers of the matrix is displayed.
+        System.out.print("\t");
+        for (int i = 1; i <= COLUMNS; i ++){
+            System.out.print(i + "\t");
+        }
+        // Each row of seats is shown with its corresponding value (available or occupied).
+        System.out.println();
+        for(int i = 0; i < ROWS; i++){
+            System.out.print("Row " + (i + 1) + ":  ");
+            for(int j = 0; j < COLUMNS; j++){
+                System.out.printf("%c \t", seats[i][j]);
+            }
+            System.out.println();
+        }
 
         // The user is prompted to enter the ticket price. Error checking is implemented
-        TicketPrice(price);
+        price = calc(price);
 
         do{
             // The number of available seats is shown
             System.out.println("\n Currently there are " + availableSeats + " available seats.");
             // Show the main menu
-            System.out.println("\n Choose one of the following options:");
-            System.out.println("1. Purchase tickets");
-            System.out.println("2. Change tickets");
-            System.out.println("3. Show seat status");
-            System.out.println("4. Exit the program");
-            System.out.println("Enter the number of the option you wish to choose:");
+            menu();
             // Read the option selected by the user
             option = KEYBOARD.nextInt();
             switch (option) {
@@ -208,7 +256,19 @@ public class Exercise6 {
                     if(availableSeats > 0 && occupiedSeats > 0){
                         // The current seat status is displayed first.
                         // The first row with the column headers of the matrix is displayed.
-                        CurrentStatus(COLUMNS, ROWS, seats);
+                        System.out.print("\t");
+                        for (int i = 1; i <= COLUMNS; i ++){
+                            System.out.print(i + "\t");
+                        }
+                        // Each row of seats is shown with its corresponding value (available or occupied).
+                        System.out.println();
+                        for(int i = 0; i < ROWS; i++){
+                            System.out.print("Row " + (i + 1) + ":  ");
+                            for(int j = 0; j < COLUMNS; j++){
+                                System.out.printf("%c \t", seats[i][j]);
+                            }
+                            System.out.println();
+                        }
                         // Ask amount of tickets to change
                         int changedTickets;
                         do{
@@ -247,7 +307,19 @@ public class Exercise6 {
                     break;
                 // Show seat status
                 case 3:
-                    CurrentStatus(COLUMNS, ROWS, seats);
+                    // The first row with the column headers of the matrix is displayed.
+                    System.out.print("\t");
+                    for (int i = 1; i <= COLUMNS; i ++){
+                        System.out.print(i + "\t");
+                    }
+                    // Each row of seats is shown with its corresponding value (available or occupied).
+                    System.out.println();
+                    for(int i = 0; i < ROWS; i++){
+                        System.out.print("Row " + (i + 1) + ":  ");
+                        for(int j = 0; j < COLUMNS; j++){
+                            System.out.printf("%c \t", seats[i][j]);
+                        }
+                        System.out.println();
                     }
                     break;
                 case 4:
@@ -259,59 +331,4 @@ public class Exercise6 {
             }
         }while(showMenu);
     }
-    //Methods asked for are the following:
-    //-Ask ticket price
-    public static double TicketPrice(double price) {
-        do{
-            System.out.println("Enter the price for the train ticket.");
-            System.out.println("Please note that the ticket price must be greater than 0.");
-            price = KEYBOARD.nextDouble();
-            if(price <= 0){
-                System.out.println("ERROR. The price of the ticket must be greater than 0.");
-            }
-        }while(price <= 0);
-        return price;
-    } 
-    //-Show the current status of the seatsin the train
-    public static char[][] CurrentStatus(int COLUMNS, int ROWS, char seats[][]){
-
-        // The first row with the column headers of the matrix is displayed.
-        System.out.print("\t");
-        for (int i = 1; i <= COLUMNS; i ++){
-            System.out.print(i + "\t");
-        }
-        // Each row of seats is shown with its corresponding value (available or occupied).
-        System.out.println();
-        for(int i = 0; i < ROWS; i++){
-            System.out.print("Row " + (i + 1) + ":  ");
-            for(int j = 0; j < COLUMNS; j++){
-                System.out.printf("%c \t", seats[i][j]);
-            }
-            System.out.println();
-        }
-        return seats;
-    }
-    //-Initialize the seats of the train
-    public static char[][] AllSeatsA(int COLUMNS, int ROWS, char seats[][]){
-        for(int i = 0;i < ROWS; i++){
-            for(int j = 0; j < COLUMNS; j++){
-                seats[i][j] = AVAILABLE;
-            }
-        }
-    }
-    //-Read a number within a range
-    public static int ReadNumber(){//voy por aqui, por el parentesis
-        int number;
-        System.out.print("Choose a number: ");
-        number=KEYBOARD.nextInt();
-        return number;
-    }
-    //-Execute the main menu
-    
-    //-Obtain the number of available seats
-    
-    //-Ask the number of tickets to change
-    
-    //-Change seat for N tickets
-
 }
