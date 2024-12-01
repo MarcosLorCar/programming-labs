@@ -66,23 +66,50 @@ public class Assignment6 {
         } while (grant = false);
         return ticket;
     }
-    static void Obtainseats(){
-
+    static int Obtainseats(){
+        int availableSeats = 0;
+        for (int i = 0; i < seats.length; i++) {
+            for (int j = 0; j < seats[i].length; j++) {
+                if (seats[i][j] == AVAILABLE) {
+                    availableSeats++;
+                }
+            }
+        }
+        return availableSeats;
     }
-    static void askNforchange(){
-
+    static int askNforchange(int availableSeats, int occupiedSeats){
+        int UB;
+        UB = Math.min(availableSeats, occupiedSeats);
+        read(1, UB, "Enter the tickets to change, select more than one please");
+            
+        return availableSeats;
     }
-    static void changetheN(){
-
+    static void changetheN(int changedTickets){
+        for(int i = 0; i < changedTickets; i++){
+            int oldSeatRow, oldSeatColumn, newSeatRow, newSeatColumn;
+            // Selects the seat whose ticket is to be changed
+            do{
+                oldSeatRow = read(1, ROWS, "Enter the row where you were seated");
+                oldSeatColumn = read(1,COLUMNS , "Enter the column where you were seated");
+            }while(oldSeatRow < 1 || oldSeatRow > ROWS || oldSeatColumn < 1 || oldSeatColumn > COLUMNS || seats[oldSeatRow-1][oldSeatColumn-1] == AVAILABLE);
+            // Select the seat the user wants to change to
+            do{
+                newSeatRow = read(1, ROWS, "Enter the row where you want to seat");
+                newSeatColumn = read(1, COLUMNS, "Enter the column where you want to seat");
+            }while(newSeatRow < 1 || newSeatRow > ROWS || newSeatColumn < 1 || newSeatColumn > COLUMNS || seats[newSeatRow-1][newSeatColumn-1] == OCCUPIED);
+            // the old seat is available
+            seats[oldSeatRow-1][oldSeatColumn-1] = AVAILABLE;
+            // Se new seat is occupied
+            seats[newSeatRow-1][newSeatColumn-1] = OCCUPIED;
+        }
     }
     static boolean themenu(){
-        boolean showMenu;
+        boolean showMenu = true;
         int availableSeats = ROWS * COLUMNS;
-        double price;
         int option, purchaseOption, tickets, ticketsMinors;
         
             // The number of available seats is shown
-            System.out.println("\n Currently there are " + availableSeats + " available seats.");
+            
             // Show the main menu
             System.out.println("\n Choose one of the following options:");
             System.out.println("1. Purchase tickets");
@@ -251,56 +278,20 @@ public class Assignment6 {
                 // Change tickets
                 case 2:
                     // Tickets can be changed when there is at least one ticket purchased and one seat available for exchange.
+                    availableSeats = Obtainseats();
                     int occupiedSeats = ROWS * COLUMNS - availableSeats;
                     if(availableSeats > 0 && occupiedSeats > 0){
                         // The current seat status is displayed first.
                         // The first row with the column headers of the matrix is displayed.
-                        System.out.print("\t");
-                        for (int i = 1; i <= COLUMNS; i ++){
-                            System.out.print(i + "\t");
-                        }
-                        // Each row of seats is shown with its corresponding value (available or occupied).
-                        System.out.println();
-                        for(int i = 0; i < ROWS; i++){
-                            System.out.print("Row " + (i + 1) + ":  ");
-                            for(int j = 0; j < COLUMNS; j++){
-                                System.out.printf("%c \t", seats[i][j]);
-                            }
-                            System.out.println();
-                        }
+                        showcurrentstatus();
                         // Ask amount of tickets to change
-                        int changedTickets;
-                        do{
-                            System.out.println("Enter number of tickets to change. Please note that to change tickets you must select a number of tickets that have been purchased in advance and for which there are enough seats available.");
-                            changedTickets = KEYBOARD.nextInt();
-                            if(changedTickets > occupiedSeats || changedTickets > availableSeats){
-                                System.out.println("ERROR. It is not possible to change the selected number of tickets.");
-                            }
-                        }while(changedTickets > occupiedSeats|| changedTickets > availableSeats);
-                        System.out.println(changedTickets + " seats wil be changed.");
+                        askNforchange(availableSeats, occupiedSeats);
+                        int changeTickets = askNforchange(availableSeats, occupiedSeats);
+                        System.out.println(changeTickets + " seats wil be changed.");
                         // For each ticket
-                        for(int i = 0; i < changedTickets; i++){
-                            int oldSeatRow, oldSeatColumn, newSeatRow, newSeatColumn;
-                            // Selects the seat whose ticket is to be changed
-                            do{
-                                System.out.println("Select the row of the seat you want to change");
-                                oldSeatRow = KEYBOARD.nextInt();
-                                System.out.println("Select the column of the seat you want to change");
-                                oldSeatColumn = KEYBOARD.nextInt();
-                            }while(oldSeatRow < 1 || oldSeatRow > ROWS || oldSeatColumn < 1 || oldSeatColumn > COLUMNS || seats[oldSeatRow-1][oldSeatColumn-1] == AVAILABLE);
-                            // Select the seat the user wants to change to
-                            do{
-                                System.out.println("Select the row of the seat you want to change to");
-                                newSeatRow = KEYBOARD.nextInt();
-                                System.out.println("Select the column of the seat you want to change");
-                                newSeatColumn = KEYBOARD.nextInt();
-                            }while(newSeatRow < 1 || newSeatRow > ROWS || newSeatColumn < 1 || newSeatColumn > COLUMNS || seats[newSeatRow-1][newSeatColumn-1] == OCCUPIED);
-                            // the old seat is available
-                            seats[oldSeatRow-1][oldSeatColumn-1] = AVAILABLE;
-                            // Se new seat is occupied
-                            seats[newSeatRow-1][newSeatColumn-1] = OCCUPIED;
-                        }
-                    }else{
+                        changetheN(changeTickets);
+                    }
+                    else{
                         System.out.println("It is not possible to change seats because there are no seats available or there are no occupied seats.");
                     }
                     break;
@@ -321,35 +312,21 @@ public class Assignment6 {
     public static void main(String[] args) throws Exception {
         
         // Initially all seats are available
-
         boolean showMenu = true;
-
+        
+        initialseats(seats);
         // Inicio del programa
         System.out.println("Welcome to the train ticket management software");
         System.out.println("The current seat status is as follows:");
-
+        showcurrentstatus();
         // The program starts by displaying the current seat status.
         // To do this, first of all, all the seats on the train are initialised as available. 
         // The matrix is traversed and each element is assigned the value AVAILABLE.
 
-        // Secondly, the current seat status is displayed.
-        // The first row with the column headers of the matrix is displayed.
-        System.out.print("\t");
-        for (int i = 1; i <= COLUMNS; i ++){
-            System.out.print(i + "\t");
-        }
-        // Each row of seats is shown with its corresponding value (available or occupied).
-        System.out.println();
-        for(int i = 0; i < ROWS; i++){
-            System.out.print("Row " + (i + 1) + ":  ");
-            for(int j = 0; j < COLUMNS; j++){
-                System.out.printf("%c \t", seats[i][j]);
-            }
-            System.out.println();
-        }
+        
 
         // The user is prompted to enter the ticket price. Error checking is implemented
-        askprice();
+        price = askprice();
         do {
 
             showMenu = themenu();
