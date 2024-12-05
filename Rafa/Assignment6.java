@@ -103,7 +103,7 @@ public class Assignment6 {
             seats[newSeatRow-1][newSeatColumn-1] = OCCUPIED;
         }
     }
-    static boolean themenu(){
+    static boolean themenu(double price){
         boolean showMenu = true;
         int availableSeats = ROWS * COLUMNS;
         int option, purchaseOption, tickets, ticketsMinors;
@@ -329,7 +329,7 @@ public class Assignment6 {
         price = askprice();
         do {
 
-            showMenu = themenu();
+            showMenu = themenu(price);
         } while (showMenu);
 
     }
