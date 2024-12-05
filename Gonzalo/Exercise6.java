@@ -15,8 +15,8 @@ public class Exercise6 {
         char[][] seats = new char[ROWS][COLUMNS];
         // Initially all seats are available
         int availableSeats = ROWS * COLUMNS;
-        double price=0;
-        int option, purchaseOption, tickets, ticketsMinors;
+        double price;
+        int option, purchaseOption, tickets=0, ticketsMinors=0;
         boolean showMenu = true;
 
         // Inicio del programa
@@ -51,23 +51,12 @@ public class Exercise6 {
                     // Check if there are avabilable seats
                     if(availableSeats > 0){
                         // ask and read number of tickets
-                        do{
-                            System.out.println("Enter the number of tickets you want to buy. You must buy at least one, and there are " +availableSeats+ " available seats left.");
-                            tickets = KEYBOARD.nextInt();
-                            if(tickets <= 0 || tickets > availableSeats){
-                                System.out.println("ERROR. The amount of tickets is not valid.");
-                            }
-                        }while(tickets <= 0 || tickets > availableSeats);
-                        
+                        System.out.print("Choose the amount of tickets: ");
+                        ReadNumber(1, availableSeats, tickets);
+                        System.out.println("Ticktets "+tickets);
                         // ask number of tickets for minors
-                        do{
-                            System.out.println("Enter the number of tickets for minors you want to buy. Remember that at least one adult must accompany underage travellers.");
-                            ticketsMinors = KEYBOARD.nextInt();
-                            if(ticketsMinors < 0 || ticketsMinors >= tickets){
-                                System.out.println("ERROR. The amount of tickets is not valid");
-                            }
-                        }while(ticketsMinors < 0 || ticketsMinors >= tickets);
-                        
+                        System.out.print("Choose the amount of tickets for minors: ");
+                        ReadNumber(0, tickets, ticketsMinors);
                         // Purchase options menu is displayed as long as the purchase has not been successfully completed.
                         boolean purchaseCompleted = true;
                         // check that the seats have been assigned and thus avoid indicating the number of tickets and to exit the purchase option menu without having selected the seats
@@ -83,25 +72,17 @@ public class Exercise6 {
                             purchaseOption = KEYBOARD.nextInt();
                             switch (purchaseOption) {
                                 // Manual seat selection
-                                case 1:
-                                    int seatRow, seatColumn;
+                                case 1: 
+                                    int seatRow=0, seatColumn=0;
                                     // // for each passenger / ticket
                                     for (int i = 0; i < tickets; i++){
                                         do{
                                             // ask seat row
-                                            System.out.println("Enter row for seat of ticket number " + (i+1));
-                                            seatRow = KEYBOARD.nextInt();
-                                            while(seatRow < 1 || seatRow > ROWS){
-                                                System.out.println("ERROR. Invalid row value. Re-enter the row number.");
-                                                seatRow = KEYBOARD.nextInt();
-                                            }
+                                            System.out.print("Choose a row: ");
+                                            ReadNumber(0, ROWS, seatRow);
                                             // ask seat column
-                                            System.out.println("Enter column for seat of ticket number " +(i+1));
-                                            seatColumn = KEYBOARD.nextInt();
-                                            while(seatColumn < 1 || seatColumn > COLUMNS){
-                                                System.out.println("ERROR. Invalid column value. Re-enter the column number.");
-                                                seatColumn = KEYBOARD.nextInt();
-                                            }
+                                            System.out.print("Choose a column: ");
+                                            ReadNumber(0, COLUMNS, seatColumn);
                                             if(seats[seatRow-1][seatColumn-1] == OCCUPIED){
                                                 System.out.println("Sorry, that seat is currently occupied. Please select another seat.");
                                             }
@@ -248,7 +229,6 @@ public class Exercise6 {
                 // Show seat status
                 case 3:
                     CurrentStatus(COLUMNS, ROWS, seats);
-                    }
                     break;
                 case 4:
                     System.out.println("Exiting the program. \n Thank you for using our software");
@@ -257,9 +237,8 @@ public class Exercise6 {
                 default:
                     System.out.println("Invalid option. Try again.");
             }
-        }while(showMenu);
+        }while(showMenu== true);
     }
-    //Methods asked for are the following:
     //-Ask ticket price
     public static double TicketPrice(double price) {
         do{
@@ -298,16 +277,19 @@ public class Exercise6 {
                 seats[i][j] = AVAILABLE;
             }
         }
+        return seats;
     }
     //-Read a number within a range
-    public static int ReadNumber(){//voy por aqui, por el parentesis
-        int number;
-        System.out.print("Choose a number: ");
+    public static int ReadNumber(int LB, int UB, int number){
         number=KEYBOARD.nextInt();
+        while(LB>number || UB<number){
+            System.out.print("Wrong number, choose again: ");
+            number=KEYBOARD.nextInt();
+        }
         return number;
-    }
+    }//Por algun motivo se queda como 0 sin importar el valor que le ponga, mirar por que no funciona el return
     //-Execute the main menu
-    
+
     //-Obtain the number of available seats
     
     //-Ask the number of tickets to change
