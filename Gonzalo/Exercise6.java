@@ -13,8 +13,6 @@ public class Exercise6 {
     
     public static void main(String[] args) throws Exception {
         char[][] seats = new char[ROWS][COLUMNS];
-        // Initially all seats are available
-        int availableSeats = ROWS * COLUMNS;
         double price;
         int option, purchaseOption, tickets=0, ticketsMinors=0;
         boolean showMenu = true;
@@ -29,11 +27,12 @@ public class Exercise6 {
         AllSeatsA(COLUMNS, ROWS, seats);
         // Secondly, the current seat status is displayed.
         CurrentStatus(COLUMNS, ROWS, seats);
-
+        
         // The user is prompted to enter the ticket price. Error checking is implemented
-        TicketPrice(price);
-
+        price=TicketPrice();
         do{
+            //The amount of available seats is calculated
+            int availableSeats=AvailableSeats(ROWS, COLUMNS, seats);
             // The number of available seats is shown
             System.out.println("\n Currently there are " + availableSeats + " available seats.");
             // Show the main menu
@@ -49,14 +48,14 @@ public class Exercise6 {
                 // Purchase tickets
                 case 1:
                     // Check if there are avabilable seats
+                    availableSeats=AvailableSeats(ROWS, COLUMNS, seats);
                     if(availableSeats > 0){
                         // ask and read number of tickets
                         System.out.print("Choose the amount of tickets: ");
-                        ReadNumber(1, availableSeats, tickets);
-                        System.out.println("Ticktets "+tickets);
+                        tickets=ReadNumber(1, availableSeats, tickets);
                         // ask number of tickets for minors
                         System.out.print("Choose the amount of tickets for minors: ");
-                        ReadNumber(0, tickets, ticketsMinors);
+                        ticketsMinors=ReadNumber(0, tickets, ticketsMinors);
                         // Purchase options menu is displayed as long as the purchase has not been successfully completed.
                         boolean purchaseCompleted = true;
                         // check that the seats have been assigned and thus avoid indicating the number of tickets and to exit the purchase option menu without having selected the seats
@@ -79,17 +78,16 @@ public class Exercise6 {
                                         do{
                                             // ask seat row
                                             System.out.print("Choose a row: ");
-                                            ReadNumber(0, ROWS, seatRow);
+                                            seatRow=ReadNumber(0, ROWS, seatRow);
                                             // ask seat column
                                             System.out.print("Choose a column: ");
-                                            ReadNumber(0, COLUMNS, seatColumn);
+                                            seatColumn=ReadNumber(0, COLUMNS, seatColumn);
                                             if(seats[seatRow-1][seatColumn-1] == OCCUPIED){
                                                 System.out.println("Sorry, that seat is currently occupied. Please select another seat.");
                                             }
                                         }while(seats[seatRow-1][seatColumn-1] == OCCUPIED);
                                         System.out.println("Seat has been selected.");
                                         seats[seatRow-1][seatColumn-1] = OCCUPIED;
-                                        availableSeats--;
                                     }
                                     purchaseCompleted = true;
                                     seatsAssigned = true;
@@ -107,7 +105,6 @@ public class Exercise6 {
                                                     seats[i][j] = OCCUPIED;
                                                     // The selected and available seat counts are updated.
                                                     selectedSeats++;
-                                                    availableSeats--;
                                                     System.out.println("The seat in row " + (i+1) + " and column " + (j+1) + " has been selected.");
                                                     if(selectedSeats == tickets){
                                                         completedSeatSelection = true;
@@ -135,8 +132,6 @@ public class Exercise6 {
                                                 // Adjacent seats found are marked  as occupied.
                                                 for (int k = j - adjacent + 1; k <= j; k++) {
                                                     seats[i][k] = OCCUPIED;
-                                                    // Update available seats
-                                                    availableSeats--;
                                                     System.out.println("The seat in row " + (i+1) + " and column " + (k+1) + " has been selected.");
                                                 }
                                                 adjacentSeats = true;
@@ -184,6 +179,7 @@ public class Exercise6 {
                 break;
                 // Change tickets
                 case 2:
+                    availableSeats=AvailableSeats(ROWS, COLUMNS, seats);
                     // Tickets can be changed when there is at least one ticket purchased and one seat available for exchange.
                     int occupiedSeats = ROWS * COLUMNS - availableSeats;
                     if(availableSeats > 0 && occupiedSeats > 0){
@@ -198,7 +194,7 @@ public class Exercise6 {
                             if(changedTickets > occupiedSeats || changedTickets > availableSeats){
                                 System.out.println("ERROR. It is not possible to change the selected number of tickets.");
                             }
-                        }while(changedTickets > occupiedSeats|| changedTickets > availableSeats);
+                        }while(changedTickets > occupiedSeats|| changedTickets > availableSeats); //hasta aqui el WhichTicketsChange
                         System.out.println(changedTickets + " seats wil be changed.");
                         // For each ticket
                         for(int i = 0; i < changedTickets; i++){
@@ -221,7 +217,7 @@ public class Exercise6 {
                             seats[oldSeatRow-1][oldSeatColumn-1] = AVAILABLE;
                             // Se new seat is occupied
                             seats[newSeatRow-1][newSeatColumn-1] = OCCUPIED;
-                        }
+                        }//hasta aqui TicketsChange
                     }else{
                         System.out.println("It is not possible to change seats because there are no seats available or there are no occupied seats.");
                     }
@@ -240,7 +236,8 @@ public class Exercise6 {
         }while(showMenu== true);
     }
     //-Ask ticket price
-    public static double TicketPrice(double price) {
+    public static double TicketPrice() {
+        double price;
         do{
             System.out.println("Enter the price for the train ticket.");
             System.out.println("Please note that the ticket price must be greater than 0.");
@@ -287,13 +284,27 @@ public class Exercise6 {
             number=KEYBOARD.nextInt();
         }
         return number;
-    }//Por algun motivo se queda como 0 sin importar el valor que le ponga, mirar por que no funciona el return
+    }
     //-Execute the main menu
+    public static void MainMenu(){
 
+    }
     //-Obtain the number of available seats
-    
+    public static int AvailableSeats(int ROWS, int COLUMNS, char seats[][]){
+        int AvailableSeats=0;
+        for(int i=0;i<ROWS;i++){
+            for(int j=0;j<COLUMNS;j++){
+                if(seats[i][j]=='A'){AvailableSeats++;}
+            }
+        }
+        return AvailableSeats;
+    }
     //-Ask the number of tickets to change
-    
+    public static void WhichTicketsChange(){
+        
+    }//linea 197
     //-Change seat for N tickets
-
+    public static void TicketsChange(){
+        
+    }//linea 220
 }
