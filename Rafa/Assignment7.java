@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Assignment6 {
+public class Assignment7 {
 
     static final int ROWS = 5;
 	static final int COLUMNS = 4;
@@ -11,14 +11,16 @@ public class Assignment6 {
 	static final int MAX_TICKETS_NUMBER = 12;
 	static final Scanner KEYBOARD = new Scanner(System.in);
     static char [][] seats = new char[ROWS][COLUMNS];
-    static double price;
+    
     static double askprice(){
+        double price;
         do{
             System.out.println("Enter the price for the train ticket.");
             System.out.println("Please note that the ticket price must be greater than 0.");
             price = KEYBOARD.nextDouble();
             if(price <= 0){
                 System.out.println("ERROR. The price of the ticket must be greater than 0.");
+                price = KEYBOARD.nextDouble();
             }
         }while(price <= 0);
 
@@ -252,25 +254,7 @@ public class Assignment6 {
                             }
                         }while(!purchaseCompleted);
                         // Generation of the invoice for the purchase of tickets if the seats were assigned
-                        if(seatsAssigned){ 
-                            double totalPrice = price * tickets;
-                            int ticketsAdults = tickets - ticketsMinors;
-                            double totalPriceMinors, totalPriceAdults;
-                            if (ticketsMinors> 0) {
-                                totalPriceMinors = price * (100 - DISCOUNT_MINORS)/100  * ticketsMinors;
-                                totalPriceAdults = price * ticketsAdults;
-                                totalPrice = totalPriceAdults + totalPriceMinors;
-                            }
-                            if (tickets > MAX_TICKETS_NUMBER) {
-                                totalPrice = totalPrice * (100 - DISCOUNT_MAXTICKETS)/100;
-                            }
-                            System.out.println("Invoice:");
-                            System.out.println("  Number of tickets: " + tickets);
-                            System.out.println("  Price per ticket: " + price);
-                            System.out.println("  Discount applied for purchase in bulk: " + (tickets > MAX_TICKETS_NUMBER ? DISCOUNT_MAXTICKETS + "%": "None"));
-                            System.out.println("  Discount applied for tickets for minors: " + (ticketsMinors > 0 ? DISCOUNT_MINORS + "%" : "None"));
-                            System.out.printf("  Total ptice: %.2f", totalPrice);
-                        }
+                        invoice(price, tickets, ticketsMinors, seatsAssigned);
                 }else{
                     System.out.println("Sorry, there are not enough seats available. Purchase could not be finished.");
                 }
@@ -309,8 +293,42 @@ public class Assignment6 {
         
         return showMenu;
     }
-    public static void main(String[] args) throws Exception {
+    static void purchasingtickets(){
         
+    }
+    static void selectmanual(){
+
+    }
+    static void selectauto(){
+
+    }
+    static void selectcontigous(){
+
+    }
+    static void invoice(double price, int tickets, int ticketsMinors, boolean seatsAssigned){
+        if(seatsAssigned){ 
+            double totalPrice = price * tickets;
+            int ticketsAdults = tickets - ticketsMinors;
+            double totalPriceMinors, totalPriceAdults;
+            if (ticketsMinors> 0) {
+                totalPriceMinors = price * (100 - DISCOUNT_MINORS)/100  * ticketsMinors;
+                totalPriceAdults = price * ticketsAdults;
+                totalPrice = totalPriceAdults + totalPriceMinors;
+            }
+            if (tickets > MAX_TICKETS_NUMBER) {
+                totalPrice = totalPrice * (100 - DISCOUNT_MAXTICKETS)/100;
+            }
+            System.out.println("Invoice:");
+            System.out.println("  Number of tickets: " + tickets);
+            System.out.println("  Price per ticket: " + price);
+            System.out.println("  Discount applied for purchase in bulk: " + (tickets > MAX_TICKETS_NUMBER ? DISCOUNT_MAXTICKETS + "%": "None"));
+            System.out.println("  Discount applied for tickets for minors: " + (ticketsMinors > 0 ? DISCOUNT_MINORS + "%" : "None"));
+            System.out.printf("  Total ptice: %.2f", totalPrice);
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        double price;
         // Initially all seats are available
         boolean showMenu = true;
         
