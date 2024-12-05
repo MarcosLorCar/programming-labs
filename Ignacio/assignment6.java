@@ -14,9 +14,9 @@ public class assignment6 {
     static final double GENERALDISCOUNT = 0.8, DISCOUNTMINORS = 0.9;
     static char seats[][] = new char[ROWS][COLUMNS];
 
-    public static void main(String[] args) {
-        
-
+    public static void main(String[] args) throws Exception
+     {
+    
         System.out.println("Welcome to the train ticket management software");
         System.out.println("The current seat status is as follows:");
 
@@ -322,7 +322,7 @@ public class assignment6 {
             }
             System.out.println("\n");
     }
-
+    // Modularization of the process of entering the price of tickets.
     static double getTicketsPrice() {
         do {
             System.out.println("\nEnter the price of the ticket:");
@@ -350,7 +350,7 @@ public class assignment6 {
         return value;
 
     }
-
+    // Method for making it possible to change tickets.
     static void changeSeats(int seatsToChange) {
         for (int i = 0; i < seatsToChange; i++) {
             int lowerBound = 1;

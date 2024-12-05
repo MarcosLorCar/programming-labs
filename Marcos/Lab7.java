@@ -103,9 +103,8 @@ public class Lab7 {
             // Read the option selected by the user
             option = KEYBOARD.nextInt();
             switch (option) {
+                // Purchase tickets
                 case 1:
-                    // Purchase tickets
-
                     // Check if there are avabilable seats
                     if(getAvailableCount(seats) > 0){
                         purchaseTickets(price, seats);
