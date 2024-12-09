@@ -53,9 +53,8 @@ public class Assignment7 {
     }
     static int read(int LB, int UB, String prompt){
         int ticket;
-        boolean grant;
+        boolean grant = false;
         do {
-            grant = false;
             System.out.println(prompt + UB + LB);
             ticket = KEYBOARD.nextInt();
             if (LB < ticket && ticket > UB) {
@@ -88,27 +87,26 @@ public class Assignment7 {
     }
     static void changetheN(int changedTickets,char seats[][]){
         for(int i = 0; i < changedTickets; i++){
-            int oldSeatRow, oldSeatColumn, newSeatRow, newSeatColumn;
+            int oldSeat[],newSeat[];
             // Selects the seat whose ticket is to be changed
             do{
-                oldSeatRow = read(1, ROWS, "Enter the row where you were seated");
-                oldSeatColumn = read(1,COLUMNS , "Enter the column where you were seated");
-            }while(oldSeatRow < 1 || oldSeatRow > ROWS || oldSeatColumn < 1 || oldSeatColumn > COLUMNS || seats[oldSeatRow-1][oldSeatColumn-1] == AVAILABLE);
+                oldSeat = selectseats(seats, 'O', "Enter the row you were seated", "Enetr the column you were seated");
+            }while(seats[oldSeat[0]][oldSeat[1]] == AVAILABLE);
             // Select the seat the user wants to change to
             do{
-                newSeatRow = read(1, ROWS, "Enter the row where you want to seat");
-                newSeatColumn = read(1, COLUMNS, "Enter the column where you want to seat");
-            }while(newSeatRow < 1 || newSeatRow > ROWS || newSeatColumn < 1 || newSeatColumn > COLUMNS || seats[newSeatRow-1][newSeatColumn-1] == OCCUPIED);
+                newSeat = selectseats(seats, 'A',"Enter the new row", "Enter the new column");
+                
+            }while(seats[newSeat[0]][newSeat[1]] == OCCUPIED);
             // the old seat is available
-            seats[oldSeatRow-1][oldSeatColumn-1] = AVAILABLE;
+            seats[oldSeat[0]][oldSeat[1]] = AVAILABLE;
             // Se new seat is occupied
-            seats[newSeatRow-1][newSeatColumn-1] = OCCUPIED;
+            seats[newSeat[0]][newSeat[1]] = OCCUPIED;
         }
     }
     static boolean themenu(double price, char seats[][]){
         boolean showMenu = true;
         int availableSeats = ROWS * COLUMNS;
-        int option, tickets, ticketsMinors;
+        int option;
         
         
             // The number of available seats is shown
@@ -168,7 +166,7 @@ public class Assignment7 {
         
         return showMenu;
     }
-    static boolean purchasingtickets(int availableSeats, char [][] seats, double price){
+    static void purchasingtickets(int availableSeats, char [][] seats, double price){
         int purchaseOption;
         int tickets, ticketsMinors;
         // ask and read number of tickets
@@ -205,21 +203,11 @@ public class Assignment7 {
             switch (purchaseOption) {
                 // Manual seat selection
                 case 1:
-                    int seatRow, seatColumn;
-                    int [][] src;
-                    // // for each passenger / ticket
+                    // for each passenger / ticket
                     for (int i = 0; i < tickets; i++){
-                        do{
-                            
-                            seatRow = selectseats(src);
-                            
-                            if(seats[seatRow-1][seatColumn-1] == OCCUPIED){
-                                System.out.println("Sorry, that seat is currently occupied. Please select another seat.");
-                            }
-                        }while(seats[seatRow-1][seatColumn-1] == OCCUPIED);
-                        System.out.println("Seat has been selected.");
-                        seats[seatRow-1][seatColumn-1] = OCCUPIED;
-                        availableSeats--;
+                         int seat[] = selectseats(seats, 'A', "Please pick the row for passenger" + (i+1), "Please pick the column for passenger" + (i+1));
+                         System.out.println("Your seat has been selected");
+                         seats[seat[0]][seat[1]] = OCCUPIED;
                     }
                     purchaseCompleted = true;
                     seatsAssigned = true;
@@ -246,9 +234,7 @@ public class Assignment7 {
         }while(!purchaseCompleted);
         // Generation of the invoice for the purchase of tickets if the seats were assigned
         invoice(price, tickets, ticketsMinors, seatsAssigned);
-    }
-    static void selectmanual(){
-        
+         
     }
     static void selectauto(char [][] seats, int availableSeats, int tickets){
         int selectedSeats = 0;
@@ -320,20 +306,17 @@ public class Assignment7 {
             System.out.printf("  Total ptice: %.2f", totalPrice);
         }
     }
-    static int[][] selectseats(char [][]seats){
-        int seatRow, seatColumn;
-        // ask seat row
-        seatRow = read(1, ROWS, "Enter the seat row please");
-        while(seatRow < 1 || seatRow > ROWS){
-            seatRow = read(1, ROWS, "Enter the seat row again please");
-        }
-        // ask seat column
-        seatColumn = read(1, COLUMNS, "Enter the seat row please");
-        while(seatColumn < 1 || seatColumn > COLUMNS){
-            seatColumn = read(1, COLUMNS, "Enter the seat row again please");
-        }
-        int[][] src = new int[seatRow][seatColumn];
-        return src;
+    static int[] selectseats(char [][]seats, char parameter, String promptR, String promptC){
+        int [] seat = new int[2];
+        do {
+            seat[0] = read(1, ROWS, promptR) - 1;
+            seat[1] = read(1, COLUMNS, promptC) - 1;
+            if (seats[seat[0]][seat[1]] != parameter) {
+                System.out.printf("That seat is %s, please pick another","\n", parameter == 'A' ? "occupied" : "available");
+                
+            }
+        } while (seats[seat[0]][seat[1]] != parameter);
+        return seat;
     }
     public static void main(String[] args) throws Exception {
         char [][] seats = new char[ROWS][COLUMNS];
