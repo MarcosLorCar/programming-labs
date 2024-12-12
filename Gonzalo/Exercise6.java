@@ -265,7 +265,7 @@ public class Exercise6 {
             System.out.println("ERROR. It is not possible to change the selected number of tickets.");
         }
         return changedTickets;
-    }//linea 197
+    }
     //-Change seat for N tickets
     public static void TicketsChange(int availableSeats, int ROWS, int COLUMNS, char seats[][]){
         availableSeats=AvailableSeats(ROWS, COLUMNS, seats);
