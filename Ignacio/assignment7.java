@@ -17,7 +17,7 @@ public class assignment7 {
 
     public static void main(String[] args) throws Exception
      {
-        // Definition of variables
+        // Definition of local variables
         char seats[][] = new char[ROWS][COLUMNS];
         double price = 0;
 
@@ -34,10 +34,11 @@ public class assignment7 {
         price = getTicketsPrice();
 
         // Showing the available seats.
-        System.out.printf("\nThere are %d available seats\n", calculateAvailableSeats(availableSeats, occupiedSeats));
-
+        availableSeats = calculateAvailableSeats(availableSeats, occupiedSeats);
+        System.out.printf("\nThere are %d available seats\n", availableSeats);
+        
          // Showing the menu of options.
-         mainMenu(seats, price);
+         mainMenu(seats, price, availableSeats);
     }
     // Function that makes all seats available when the program is executed.
     static void seatsAtStart(char[][] seats, int ROWS , int COLUMNS) {
@@ -48,7 +49,7 @@ public class assignment7 {
         }
     }
     // Showing the main menu, in which the other methods are called and used.
-    static void mainMenu(char[][] seats, double price) {
+    static void mainMenu(char[][] seats, double price, int availableSeats) {
         do {
             System.out.println("Choose one of the following options:");
             System.out.println("1. Purchase tickets");
@@ -96,7 +97,7 @@ public class assignment7 {
                                 seats[positionChangeRow][positionChangeColumn] = 'O';
                             
                             // Showing the available seats.
-                            System.out.printf("\nThere are %d available seats\n", calculateAvailableSeats(availableSeats, occupiedSeats));
+                            System.out.printf("\nThere are %d available seats\n", availableSeats);
                         }
                         break;
                     case 3:
@@ -182,6 +183,7 @@ public class assignment7 {
     // Method for making it possible to change tickets.
     static void changeSeats(int seatsToChange, char[][] seats) {
         for (int i = 0; i < seatsToChange; i++) {
+            occupiedSeats = 0;
             // Ensuring the seats the user wants to change is occupied.
             seat = selectSeat("Select the row of the seat you want to change", "Select the column of the seat you want to change", seats, 'O');
            
@@ -192,7 +194,7 @@ public class assignment7 {
             seat = selectSeat("Select the row of the seat you want to change to", "Select the column of the seat you want to change to", seats, 'A');
             
             positionChangeRow = seat[0];
-            positionColumn = seat[1];
+            positionChangeColumn = seat[1];
         }
     }
     static void purchaseTickets(char[][] seats, double price) {
@@ -227,7 +229,7 @@ public class assignment7 {
             }
         } while (optionPurchase!=4);
     }
-
+    // Method used for selecting the seats. It is used in various functionalities, such as selecting seats or changing them.
     static int[] selectSeat( String request1, String request2, char[][] seats, char stateSeat) {
         int row, column;
         int[] selection = new int[2];
@@ -238,7 +240,10 @@ public class assignment7 {
             // Select the column
             column = readInRange(1, COLUMNS, request2) - 1;
 
-
+            if (seats[row][column] != stateSeat) {
+                String seatLabel = (stateSeat == 'A') ? "available" : "occupied";
+                System.out.println("ERROR! The seat selected is not " + seatLabel + ". Try again.");
+            }
         } while (seats[row][column] != stateSeat);
 
         selection[0] = row;
@@ -246,9 +251,8 @@ public class assignment7 {
 
         return selection;
     }
-
+    // Method use for generating the invoice.
     static void generateInvoice(double price) {
-        // Showing the invoice:
         result = price * numTickets;
 
         if (numTicketsminor > 0) {
@@ -286,6 +290,7 @@ public class assignment7 {
         // Calculating and showing the invoice
         generateInvoice(price);
     }
+    // Method used for selecting adjacent seats.
     static void searchContigousSeats(char[][] seats, double price) {
         occupiedSeats = 0;
         cont = 0;
@@ -317,11 +322,10 @@ public class assignment7 {
             generateInvoice(price);
         }
     }
+    // Method implemented for selecting the seats manually.
     static void selecSeatsManually(char[][] seats, double price) {
         // Showing again the seats available.
         showStatus(seats);
-
-        // Manual selection of the seats.
         occupiedSeats = 0;
         isValid = false;
         for (int i = 0; i < numTickets; i++) {
