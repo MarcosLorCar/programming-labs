@@ -8,9 +8,8 @@ public class assignment7 {
     private static final Scanner KEYBOARD = new Scanner(System.in);
     static boolean isValid;
     static final int ROWS = 6, COLUMNS = 5;
-    static int option, optionPurchase, availableSeats = ROWS * COLUMNS, occupiedSeats = 0, cont = 0;
-    static int numTickets = 0, numTicketsminor, positionRow, positionColumn, seatsToChange, positionChangeRow = 0, positionChangeColumn = 0;
-    static double result;
+    static int option, optionPurchase, availableSeats = ROWS * COLUMNS;
+    static int numTickets = 0, numTicketsminor;
     static final double GENERALDISCOUNT = 0.8, DISCOUNTMINORS = 0.9;
 
     static int seat[] = new int[2];
@@ -34,7 +33,7 @@ public class assignment7 {
         price = getTicketsPrice();
 
         // Showing the available seats.
-        availableSeats = calculateAvailableSeats(availableSeats, occupiedSeats);
+        availableSeats = calculateAvailableSeats(seats);
         System.out.printf("\nThere are %d available seats\n", availableSeats);
         
          // Showing the menu of options.
@@ -57,13 +56,13 @@ public class assignment7 {
             System.out.println("3. Show seat status");
             System.out.println("4. Exit the program");
 
-            availableSeats = calculateAvailableSeats(availableSeats, occupiedSeats);
+            availableSeats = calculateAvailableSeats(seats);
 
             // Asking the option
             System.out.println("Enter the number of the option you wish to choose:");
             option = KEYBOARD.nextInt();
 
-            if (option == 1 && calculateAvailableSeats(availableSeats, occupiedSeats) == 0) {
+            if (option == 1 && calculateAvailableSeats(seats) == 0) {
                 System.out.println("Purchase of tickets is not possible because there are no more available seats.");
             }
             
@@ -87,14 +86,11 @@ public class assignment7 {
                             showStatus(seats);
 
                             // Asking for the number of tickets to be changed.
-                            seatsToChange = numTicketsChange(availableSeats, occupiedSeats);
+                            int occupiedSeats =  ROWS*COLUMNS - availableSeats;
+                            int seatsToChange = numTicketsChange(availableSeats, occupiedSeats);
 
                             // Executing the method for changing the tickets:
                             changeSeats(seatsToChange, seats);
-
-                            // Changing the seats.
-                                seats[positionRow][positionColumn] = 'A';
-                                seats[positionChangeRow][positionChangeColumn] = 'O';
                             
                             // Showing the available seats.
                             System.out.printf("\nThere are %d available seats\n", availableSeats);
@@ -111,9 +107,18 @@ public class assignment7 {
           }
         }while(option != 4);
     }
-    // Method used for calculating the available seats.
-    static int calculateAvailableSeats(int availableSeats, int occupiedSeats) {
-        availableSeats = (availableSeats - occupiedSeats);
+    // Method used for calculating the number of available seats.
+    static int calculateAvailableSeats(char[][] seats) {
+        int availableSeats = 0;
+
+        for (int i=0;i<seats.length;i++) {
+            for (int j=0;j<seats[0].length;j++) {
+                if (seats[i][j] == 'A') {
+                    availableSeats++;
+                }
+            }
+        }
+
         return availableSeats;
     }
 
@@ -172,7 +177,7 @@ public class assignment7 {
     static int numTicketsChange(int availableSeats,int occupiedSeats) {
 
         int lowerBound = 1;
-        int UpperBound = Math.min(availableSeats,occupiedSeats); // Ensuring the selected tickets can be changed
+        int UpperBound = Math.min(availableSeats, occupiedSeats); // Ensuring the selected tickets can be changed
 
         int value = readInRange(lowerBound, UpperBound, """
         Enter number of tickets to change. Please note that to change tickets
@@ -183,22 +188,26 @@ public class assignment7 {
     // Method for making it possible to change tickets.
     static void changeSeats(int seatsToChange, char[][] seats) {
         for (int i = 0; i < seatsToChange; i++) {
-            occupiedSeats = 0;
+    
             // Ensuring the seats the user wants to change is occupied.
             seat = selectSeat("Select the row of the seat you want to change", "Select the column of the seat you want to change", seats, 'O');
            
-            positionRow = seat[0];
-            positionColumn = seat[1];
+            int positionRow = seat[0];
+            int positionColumn = seat[1];
 
             // Ensuring the seats the users wants to change to is available.
             seat = selectSeat("Select the row of the seat you want to change to", "Select the column of the seat you want to change to", seats, 'A');
             
-            positionChangeRow = seat[0];
-            positionChangeColumn = seat[1];
+            int positionChangeRow = seat[0];
+            int positionChangeColumn = seat[1];
+
+            // Changing the seats.
+            seats[positionRow][positionColumn] = 'A';
+            seats[positionChangeRow][positionChangeColumn] = 'O';
         }
     }
     static void purchaseTickets(char[][] seats, double price) {
-        occupiedSeats = 0;
+
         do {
             System.out.println("\nChoose one of the following options for purchasing tickets:");
             System.out.println("1. Manual seat selection.");
@@ -211,13 +220,19 @@ public class assignment7 {
 
             switch (optionPurchase) {
                 case 1:
-                    selecSeatsManually(seats, price);
+                    selectSeatsManually(seats);
+                    // Calculating and showing the invoice.
+                    generateInvoice(price);
                     break;
                 case 2:
-                    assignSeatsAutomatically(seats, price);
+                    assignSeatsAutomatically(seats);
+                    // Calculating and showing the invoice.
+                    generateInvoice(price);
                     break;
                 case 3:
-                    searchContigousSeats(seats, price);
+                    searchContigousSeats(seats);
+                    // Calculating and showing the invoice.
+                    generateInvoice(price);
                     break;
                 case 4:
                     // Ending the program.
@@ -253,7 +268,7 @@ public class assignment7 {
     }
     // Method use for generating the invoice.
     static void generateInvoice(double price) {
-        result = price * numTickets;
+        double result = price * numTickets;
 
         if (numTicketsminor > 0) {
             result = price * numTicketsminor * DISCOUNTMINORS + price * (numTickets - numTicketsminor);
@@ -274,8 +289,8 @@ public class assignment7 {
         optionPurchase = 4;
     }
     // Method implemented for automatic seat selection.
-    static void assignSeatsAutomatically(char[][] seats, double price) {
-        occupiedSeats = 0;
+    static void assignSeatsAutomatically(char[][] seats) {
+        int positionColumn, positionRow;
         for (int i = 0; i < numTickets; i++) {
             do {
                 positionRow = (int) (Math.random() * ROWS);
@@ -283,17 +298,13 @@ public class assignment7 {
 
             } while (seats[positionRow][positionColumn] == 'O');
             seats[positionRow][positionColumn] = 'O';
-            occupiedSeats++;
 
             System.out.printf("The seat in row %d and column %d has been selected.\n", positionRow + 1, positionColumn + 1);
         }
-        // Calculating and showing the invoice
-        generateInvoice(price);
     }
     // Method used for selecting adjacent seats.
-    static void searchContigousSeats(char[][] seats, double price) {
-        occupiedSeats = 0;
-        cont = 0;
+    static void searchContigousSeats(char[][] seats) {
+        int cont = 0;
         // Selection of adjacent seats
         if (numTickets > seats[0].length) {
             System.out.println(
@@ -311,32 +322,25 @@ public class assignment7 {
                                     "The seat in row %d and column %d has been selected\n",
                                     i + 1, k + 1);
                             seats[i][k] = 'O';
-                            occupiedSeats++;
                         }
                         j = seats[0].length; // Breaking the loop that iterates rows.
                         i = seats.length; // Breaking the loop that iterates columns.
                     }
                 } // End of loop for columns.
             } // End of loop for rows.
-            // Generating and showing the invoice.
-            generateInvoice(price);
         }
     }
     // Method implemented for selecting the seats manually.
-    static void selecSeatsManually(char[][] seats, double price) {
+    static void selectSeatsManually(char[][] seats) {
         // Showing again the seats available.
         showStatus(seats);
-        occupiedSeats = 0;
         isValid = false;
         for (int i = 0; i < numTickets; i++) {
 
             seat = selectSeat("\nEnter the row for seat of ticket " + (i+1) + ":" ,"\nEnter the column for seat of ticket " + (i+1) + ":", seats, 'A');
             
             seats[seat[0]][seat[1]] = 'O';
-            occupiedSeats++;
             System.out.println("Seat has been selected.");
         }
-        // Showing the invoice:
-        generateInvoice(price);
     }
 }
