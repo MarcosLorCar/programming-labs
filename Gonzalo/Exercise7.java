@@ -299,7 +299,7 @@ public class Exercise7 {
                 seats[oldSeatRow-1][oldSeatColumn-1] = AVAILABLE;
                 // Se new seat is occupied
                 seats[newSeatRow-1][newSeatColumn-1] = OCCUPIED;
-            }//hasta aqui TicketsChange
+            }
             }else{
                 System.out.println("It is not possible to change seats because there are no seats available or there are no occupied seats.");
             }
