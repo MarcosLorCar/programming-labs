@@ -1,0 +1,3 @@
+- [Milestone 1 (Assignments 1-3)](Milestone%201)
+- [Milestone 2 (Assignments 4-5)](Milestone%202)
+- [Milestone 3 (Assignments 6-7)](Milestone%203)
